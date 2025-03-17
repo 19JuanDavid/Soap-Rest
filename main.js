@@ -1,23 +1,20 @@
-/*NOTA:
-En el formulario de registro de usuarios, una vez se haya registrado un usuario, 
-click en aceptar el alert y recargar la página para visualizar el usuario registrado en la tabla de usuarios registrados.
-*/
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    cargarUsuarios();
+});
 
 const formulario = document.getElementById('registroFormulario');
 
-formulario.addEventListener('submit', (event) => {
-    event.preventDefault(); 
-    enviarDatos();
-});
+formulario.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-// Este método es para enviar los datos desde el formulario con SOAP
-function enviarDatos() {
-    const nombreUsuario = document.getElementById('nombreUsuario').value;
-    const email = document.getElementById('email').value;
-    const contraseña = document.getElementById('contraseña').value;
-    
-    const soapRequest = 
-        `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://localhost/PRACTICA_SOAP">
+const nombreUsuario = document.getElementById('nombreUsuario').value;
+const email = document.getElementById('email').value;
+const contraseña = document.getElementById('contraseña').value;
+
+const soapRequest =
+    `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://localhost/PRACTICA_SOAP">
             <soapenv:Header/>
             <soapenv:Body>
                 <ser:guardarUsuarios>
@@ -28,43 +25,53 @@ function enviarDatos() {
             </soapenv:Body>
         </soapenv:Envelope>`;
 
-    fetch('http://localhost/entorno_servidor/PRACTICA_SOAP/SOAP/servidorSoap.php', {
+try {
+
+     fetch('http://localhost/entorno_servidor/SOAP-REST/SOAP/servidorSoap.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'text/xml; charset=utf-8',
         },
         body: soapRequest,
-    })
-        .then((data) => {
-            alert(`Usuario ${nombreUsuario} registrado correctamente`);
-        })
-        .catch((error) => {
-            alert('No se pudo registrar el usuario');
-        });
+    });
+    alert(`Usuario ${nombreUsuario} registrado correctamente`);
+
+    cargarUsuarios();
+
+    formulario.reset();
+
+    document.addEventListener("DOMContentLoaded", () => {
+        cargarUsuarios();
+    });
+
+    } catch (error) {
+        console.error('Error al registrar el usuario:', error);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    cargarUsuarios();
 });
 
-// Este método es para cargar los usuarios registrados con REST
-function cargarUsuarios() {
-    fetch('http://localhost/entorno_servidor/PRACTICA_SOAP/REST/apiRest.php')
-        .then(response => response.json())
-        .then(data => {
-            const tablaUsuarios = document.getElementById('tabla-usuarios');
-            tablaUsuarios.innerHTML = ''; 
 
-            data.forEach(usuario => {
-                const fila = document.createElement('tr');
-                fila.innerHTML = `
+// Este método es para cargar con API REST los usuarios registrados
+async function cargarUsuarios() {
+    try {
+        const answer = await fetch('http://localhost/entorno_servidor/SOAP-REST/REST/apiRest.php')
+        if (!answer.ok) {
+            throw new Error(`Error al obtener los usuarios: ${answer.statusText}`);
+        }
+        const data = await answer.json();
+        const tablaUsuarios = document.getElementById('tabla-usuarios');
+        tablaUsuarios.innerHTML = '';
+
+        data.forEach(usuario => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
                     <td>${usuario.nombreUsuario}</td>
                     <td>${usuario.correoUsuario}</td>
                 `;
-                tablaUsuarios.appendChild(fila);
-            });
-        })
-        .catch(error => {
-            console.error('Error al cargar los usuarios:', error);
+            tablaUsuarios.appendChild(fila);
         });
+
+    } catch (error) {
+        console.error('Error al cargar los usuarios:', error);
+    };
 }

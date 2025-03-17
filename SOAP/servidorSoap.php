@@ -1,12 +1,5 @@
 <?php
 
-/*NOTA:
-En el formulario de registro de usuarios, una vez se haya registrado un usuario, 
-click en aceptar el alert y recargar la página para visualizar el usuario registrado en la tabla de usuarios registrados.
-*/
-
-require_once __DIR__ . '/../POPOS/user.php';
-
 class serverSoap{
     public function guardarUsuarios($nombreUsuario, $correo, $contrasena) {
 
@@ -29,7 +22,7 @@ class serverSoap{
 }
 
  public static function iniciarServidor(){
-        $server = new SoapServer(null, ['uri' => "http://localhost/entorno_servidor/PRACTICA_SOAP"]);
+        $server = new SoapServer(null, ['uri' => "http://localhost/entorno_servidor/SOAP-REST"]);
 
         $server->setClass('serverSoap');
 

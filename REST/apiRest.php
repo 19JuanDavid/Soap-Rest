@@ -1,10 +1,5 @@
 <?php
 
-/*NOTA:
-En el formulario de registro de usuarios, una vez se haya registrado un usuario, 
-click en aceptar el alert y recargar la página para visualizar el usuario registrado en la tabla de usuarios registrados.
-*/
-
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 

@@ -1,51 +1,52 @@
-<!--NOTA:
-En el formulario de registro de usuarios, una vez se haya registrado un usuario, 
-click en aceptar el alert y recargar la página para visualizar el usuario registrado en la tabla de usuarios registrados.
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOAP-REST</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <header>
-        <h2>Registro de usuarios</h2>
-    </header>
-    <form id="registroFormulario" action="http://localhost/entorno_servidor/Practica_Soap/SOAP/clienteSoap.php" method="post">
-        <div>
-            <Label>Introduce un usuario</Label>
-        </div>
-        <div>
-            <input type="text" name="nombre" id="nombreUsuario" required>
-        </div>
-        <div>
-            <label>Introduce un correo</label>
-        </div>
-        <div>
-            <input type="email" name="email" id="email" required>
-        </div>
-        <div>
-            <label>Introduce una contraseña</label>
-        </div>
-        <div>
-        <input type="password" name="contraseña" id="contraseña" required>
-        </div>
-        <button type="submit">Registrar</button>
-    </form>
+<body class="bg-gray-950 flex flex-col items-center p-6">
 
-    <h1>Usuarios Registrados</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody id="tabla-usuarios">
-    </tbody>
-  </table>
+    <header class="mb-6">
+        <h2 class="text-3xl font-bold text-gray-100">Registro de usuarios</h2>
+    </header>
+
+    <div class="bg-gray p-6 rounded-lg shadow-md w-full max-w-md">
+        <form id="registroFormulario" action="entorno_servidor/Soap-Rest/main.js" method="post" class="space-y-4">
+            <div>
+                <label class="block text-gray-100 font-semibold">Introduce un usuario</label>
+                <input type="text" name="nombre" id="nombreUsuario" required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900">
+            </div>
+            <div>
+                <label class="block text-gray-100 font-semibold">Introduce un correo</label>
+                <input type="email" name="email" id="email" required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900">
+            </div>
+            <div>
+                <label class="block text-gray-100 font-semibold">Introduce una contraseña</label>
+                <input type="password" name="contraseña" id="contraseña" required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900">
+            </div>
+            <button type="submit" class="w-full bg-blue-950 text-white py-2 rounded-lg hover:bg-blue-900">Registrar</button>
+        </form>
+    </div>
+
+    <div class="mt-8 w-full max-w-2xl">
+        <h1 class="text-2xl font-bold text-gray-100 mb-4">Usuarios Registrados</h1>
+        <div class="bg-white p-4 rounded-lg shadow-md overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-blue-950">
+                        <th class="border border-blue-950 text-gray-100 p-2">Nombre</th>
+                        <th class="border border-blue-950 text-gray-100 p-2">Email</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-usuarios" class="text-center"></tbody>
+            </table>
+        </div>
+    </div>
 
     <script src="main.js"></script>
 </body>
